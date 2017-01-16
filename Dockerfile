@@ -19,6 +19,8 @@ RUN dpkg --add-architecture i386 && \
     lib32z1 \
     python \
     curl \
+    pciutils \
+    mesa-utils \
     libqt5widgets5 && \
     apt-get clean && \
     rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -28,12 +30,28 @@ RUN dpkg --add-architecture i386 && \
 # #########################
 
 ENV PATH ${PATH}:${HOME_BIN}
+ENV ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
 
 COPY files ${HOME_BIN}
 RUN chmod +x ${HOME_BIN}/*.sh
 RUN chown -R dev:dev ${HOME_BIN}/*.sh
 
+# #########################
+# ##### USB Debugging #####
+# #########################
+
+COPY files/51-android.rules /etc/udev/rules.d
+RUN chmod a+r /etc/udev/rules.d/51-android.rules
+RUN usermod -aG video dev
+
 USER dev
+
+# #########################
+# ### Android Studio ######
+# #########################
+
+RUN curl 'https://dl.google.com/dl/android/studio/ide-zips/2.2.3.0/android-studio-ide-145.3537739-linux.zip?hl=es-419' > /tmp/studio.zip && \
+    unzip /tmp/studio.zip -d /home/dev/
 
 # #########################
 # ###### Android SDK ######
@@ -55,3 +73,5 @@ RUN cd && \
 # #########################
 
 RUN ${HOME_BIN}/android-test.sh
+
+ENTRYPOINT ["/home/dev/.bin/entrypoint.sh"]

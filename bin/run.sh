@@ -21,10 +21,12 @@ function exported_directories_string {
     echo $str
 }
 
-docker run -it -p 8080:8080 \
+docker run -ti --rm \
+       -e DISPLAY=unix${DISPLAY} \
        -v $(pwd):/home/dev/ws \
        -v /etc/localtime:/etc/localtime:ro \
+	   -v /dev/bus/usb:/dev/bus/usb \
+       --privileged -v /dev/kvm:/dev/kvm \
        -v /tmp/.X11-unix:/tmp/.X11-unix \
        $(exported_directories_string) \
-       -e DISPLAY=unix${DISPLAY} \
        mgg/android-dev
