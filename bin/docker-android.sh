@@ -24,7 +24,7 @@ function exported_directories_string {
 docker run -ti --rm \
        -e DISPLAY=unix${DISPLAY} \
        -v $(pwd):/home/developer/ws \
-       -v $(pwd)/android-sdk-linux:/home/developer/android-sdk-linux \
+       -v $HOME/.android-sdk:/home/developer/android-sdk-linux \
        -v /etc/localtime:/etc/localtime:ro \
 	   -v /dev/bus/usb:/dev/bus/usb \
        --privileged -v /dev/kvm:/dev/kvm \
