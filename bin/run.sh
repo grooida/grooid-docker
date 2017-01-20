@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Developer home
-DHOME=/home/dev
+DHOME=/home/developer
 
 # Make sure you give proper permissions to share the following folders
 EXPORTED_DIRECTORIES=".m2 .gradle .lein .scala .groovy .grails .sdkman/archives .sdkman/candidates .sbt .nvm .intellij .ssh"
@@ -23,7 +23,8 @@ function exported_directories_string {
 
 docker run -ti --rm \
        -e DISPLAY=unix${DISPLAY} \
-       -v $(pwd):/home/dev/ws \
+       -v $(pwd):/home/developer/ws \
+       -v $(pwd)/android-sdk-linux:/home/developer/android-sdk-linux \
        -v /etc/localtime:/etc/localtime:ro \
 	   -v /dev/bus/usb:/dev/bus/usb \
        --privileged -v /dev/kvm:/dev/kvm \

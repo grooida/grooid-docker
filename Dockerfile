@@ -1,77 +1,86 @@
-FROM mgg/jvm
-
-USER root
+FROM openjdk:8
 
 # #########################
 # ## System Dependencies ##
 # #########################
 
-RUN dpkg --add-architecture i386 && \
-    apt-get update && \
-    apt-get install -y --force-yes \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    curl \
+    sudo \
+    tmux \
     expect \
     git \
-    wget \
-    libc6-i386 \
-    lib32stdc++6 \
-    lib32gcc1 \
-    lib32ncurses5 \
-    lib32z1 \
-    python \
-    curl \
-    pciutils \
-    mesa-utils \
-    libqt5widgets5 && \
-    apt-get clean && \
-    rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    wget
 
 # #########################
-# ###### Build Tools ######
+# ###### USER UIDS #######
 # #########################
 
-ENV PATH ${PATH}:${HOME_BIN}
-ENV ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
+COPY bin/.docker.uids_gids /tmp
+RUN . /tmp/.docker.uids_gids && addgroup --gid ${kvmgid} kvm
 
-COPY files ${HOME_BIN}
-RUN chmod +x ${HOME_BIN}/*.sh
-RUN chown -R dev:dev ${HOME_BIN}/*.sh
-
-# #########################
-# ##### USB Debugging #####
-# #########################
-
-COPY files/51-android.rules /etc/udev/rules.d
-RUN chmod a+r /etc/udev/rules.d/51-android.rules
-RUN usermod -aG video dev
-
-USER dev
+RUN . /tmp/.docker.uids_gids && \
+    echo "developer:x:${uid}:${gid}:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && \
+    echo "developer:x:${gid}:" >> /etc/group && \
+    adduser developer kvm && \
+    adduser developer video && \
+    chmod 0660 /etc/sudoers && \
+    echo "developer ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+    chmod 0440 /etc/sudoers
 
 # #########################
 # ### Android Studio ######
 # #########################
 
 RUN curl 'https://dl.google.com/dl/android/studio/ide-zips/2.2.3.0/android-studio-ide-145.3537739-linux.zip?hl=es-419' > /tmp/studio.zip && \
-    unzip /tmp/studio.zip -d /home/dev/
+    unzip /tmp/studio.zip -d /home/developer/
+
+RUN chown -R developer:developer /home/developer/android-studio
 
 # #########################
-# ###### Android SDK ######
+# ## Android dependencies ##
 # #########################
 
-# The following commands MUST be executed in ONE RUN
-# execution. Explanation at:
-# http://stackoverflow.com/questions/30301198/android-sdk-tools-install-in-docker-fails
-RUN cd && \
-    wget --output-document=android-sdk.tgz --quiet https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && \
-    tar xzf android-sdk.tgz && \
-    rm -f android-sdk.tgz && \
-    chown -R dev.dev android-sdk-linux && \
-    android-accept-licenses.sh "android-sdk-linux/tools/android update sdk --all --no-ui --filter platform-tools,tools" && \
-    android-accept-licenses.sh "android-sdk-linux/tools/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-21.0.0,build-tools-21.0.1,build-tools-21.0.2,build-tools-21.1.0,build-tools-21.1.1,build-tools-21.1.2,build-tools-22.0.0,build-tools-22.0.1,build-tools-23.0.0,build-tools-23.0.3,build-tools-24.0.0,build-tools-24.0.1,build-tools-24.0.2,build-tools-24.0.3,build-tools-25.0.0,android-21,android-22,android-23,android-24,android-25,addon-google_apis_x86-google-21,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services,sys-img-armeabi-v7a-android-24"
+COPY files/51-android.rules /etc/udev/rules.d
 
-# #########################
-# # Checking Installation #
-# #########################
+RUN chmod a+r /etc/udev/rules.d/51-android.rules && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    qemu-system \
+    qemu-kvm \
+    pciutils \
+    qtbase5-dev \
+    qt5-default \
+    libvirt0 \
+    file \
+    libncurses5-dev \
+    libstdc++6 \
+    va-driver-all \
+    lib32z1 \
+    lib32ncurses5 \
+    lib32stdc++6 \
+    unzip \
+    mesa-utils \
+    libgl1-mesa-swx11 && \
+    apt-get clean && \
+    rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN ${HOME_BIN}/android-test.sh
+#####################
+#### ENVIRONMENT ####
+#####################
 
-ENTRYPOINT ["/home/dev/.bin/entrypoint.sh"]
+RUN mkdir -p /home/developer/.bin
+COPY files /home/developer/.bin
+RUN chmod +x /home/developer/.bin/*.sh
+RUN chown -R developer:developer /home/developer
+
+USER developer
+WORKDIR /home/developer
+
+ENV DISPLAY=:0
+ENV SHELL=/bin/bash
+ENV ANDROID_HOME=/home/developer/android-sdk-linux
+ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+ENTRYPOINT ["/home/developer/.bin/entrypoint.sh"]
