@@ -10,6 +10,11 @@ IMAG_PREFIX="docker-android"
 ANDROID_SDK_HOME=$HOME/.android-sdk
 ANDROID_AVD_HOME=$HOME/.android
 
+# Lazybones is a simple project creation tool
+# that uses packaged project templates.
+# You can find more at https://github.com/pledbrook/lazybones
+LAZYBONES_HOME=$HOME/.lazybones
+
 if [ -d $ANDROID_SDK_HOME ]; then
     echo "$IMAG_PREFIX: $ANDROID_SDK_HOME found!"
 else
@@ -21,6 +26,13 @@ if [ -d $ANDROID_AVD_HOME ]; then
     echo "$IMAG_PREFIX: $ANDROID_AVD_HOME found!"
 else
     echo "$IMAG_PREFIX: $ANDROID_AVD_HOME not found...creating"
+    mkdir -p $ANDROID_AVD_HOME
+fi
+
+if [ -d $LAZYBONES_HOME ]; then
+    echo "$IMAG_PREFIX: $LAZYBONES_HOME found!"
+else
+    echo "$IMAG_PREFIX: $LAZYBONES_HOME not found...creating"
     mkdir -p $ANDROID_AVD_HOME
 fi
 

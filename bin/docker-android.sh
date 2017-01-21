@@ -4,7 +4,7 @@
 DHOME=/home/developer
 
 # Make sure you give proper permissions to share the following folders
-EXPORTED_DIRECTORIES=".m2 .gradle .lein .scala .groovy .grails .sdkman/archives .sdkman/candidates .sbt .nvm .intellij .ssh"
+EXPORTED_DIRECTORIES=".m2 .gradle .lein .scala .groovy .grails .lazybones .sdkman/archives .sdkman/candidates .sbt .nvm .intellij .ssh"
 
 # This function exposes previous folders to the docker container
 function exported_directories_string {
