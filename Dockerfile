@@ -54,6 +54,7 @@ RUN chmod a+r /etc/udev/rules.d/51-android.rules && \
     qt5-default \
     libvirt0 \
     file \
+    pulseaudio \
     libncurses5-dev \
     libstdc++6 \
     va-driver-all \
