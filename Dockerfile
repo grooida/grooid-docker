@@ -60,6 +60,7 @@ RUN chmod a+r /etc/udev/rules.d/51-android.rules && \
     lib32z1 \
     lib32ncurses5 \
     lib32stdc++6 \
+    zip \
     unzip \
     mesa-utils \
     libgl1-mesa-swx11 && \
