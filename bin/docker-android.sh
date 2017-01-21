@@ -25,6 +25,7 @@ docker run -ti --rm \
        -e DISPLAY=unix${DISPLAY} \
        -v $(pwd):/home/developer/ws \
        -v $HOME/.android-sdk:/home/developer/android-sdk-linux \
+       -v $HOME/.android:/home/developer/.android \
        -v /etc/localtime:/etc/localtime:ro \
 	   -v /dev/bus/usb:/dev/bus/usb \
        --privileged -v /dev/kvm:/dev/kvm \
