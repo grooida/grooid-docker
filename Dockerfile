@@ -85,4 +85,15 @@ ENV SHELL=/bin/bash
 ENV ANDROID_HOME=/home/developer/android-sdk-linux
 ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
+##########################
+######### SDKMAN #########
+##########################
+
+RUN curl -s get.sdkman.io | bash
+RUN bash -c "source /home/developer/.sdkman/bin/sdkman-init.sh"
+
+##########################
+####### ENTRYPOINT #######
+##########################
+
 ENTRYPOINT ["/home/developer/.bin/entrypoint.sh"]
