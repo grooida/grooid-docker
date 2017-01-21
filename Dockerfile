@@ -73,7 +73,9 @@ RUN chmod a+r /etc/udev/rules.d/51-android.rules && \
 #####################
 
 RUN mkdir -p /home/developer/.bin
-COPY files /home/developer/.bin
+
+COPY files/entrypoint.sh /home/developer/.bin/entrypoint.sh
+
 RUN chmod +x /home/developer/.bin/*.sh
 RUN chown -R developer:developer /home/developer
 
