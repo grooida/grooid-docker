@@ -79,5 +79,5 @@ echo "export uid=$DEV_UID gid=$DEV_GID videogid=$VIDEO_GID kvmgid=$KVM_GID" > $U
 ### DOCKER IMAGE BUILD ###
 ##########################
 
-# Actually build the image
-docker build -t mgg/android-dev ../
+# Actually build the image and install `docker-android` script
+bash -c "docker build -t grooida/android-dev ../" && bash -c "./install.sh"
