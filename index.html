@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.3">
+<title>Android Docker Image</title>
+<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Android Docker Image</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_intro">1. Intro</a>
+<ul class="sectlevel2">
+<li><a href="#_license">1.1. License</a></li>
+<li><a href="#_github">1.2. Github</a></li>
+</ul>
+</li>
+<li><a href="#_building">2. Building</a>
+<ul class="sectlevel2">
+<li><a href="#__path">2.1. $PATH</a></li>
+<li><a href="#_build_docker_image">2.2. Build docker image</a></li>
+</ul>
+</li>
+<li><a href="#_running">3. Running</a></li>
+<li><a href="#_shared_paths">4. Shared paths</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="imgs/grooid-docker.png" alt="grooid docker">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_intro">1. Intro</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>grooid-docker</code> is a <a href="https://www.docker.com/">Docker</a> image that
+provides a complete development environment to create Android
+applications.</p>
+</div>
+<div class="sect2">
+<h3 id="_license">1.1. License</h3>
+<div class="paragraph">
+<p>Grooid Docker image uses <a href="http://www.apache.org/licenses/">Apache License 2.0</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_github">1.2. Github</h3>
+<div class="paragraph">
+<p>Docker image source code: <a href="https://github.com/grooida/grooid-docker" class="bare">https://github.com/grooida/grooid-docker</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building">2. Building</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="__path">2.1. $PATH</h3>
+<div class="paragraph">
+<p>Before executing the build you have to make sure your <code>$PATH</code> variable
+includes <code>$HOME/.bin</code> directory. That directory will be used to
+install the <code>docker-android</code> command, and make it available anywhere
+in your user space everywhere, without having to introduce the whole
+command path.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build_docker_image">2.2. Build docker image</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Please make sure you have Docker property installed. If
+you&#8217;ve never used Docker before, I recommend you to take a look at
+<a href="https://docs.docker.com/engine/getstarted/" class="bare">https://docs.docker.com/engine/getstarted/</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>First clone <a href="https://github.com/grooida/grooid-docker.git" class="bare">https://github.com/grooida/grooid-docker.git</a>. Then, inside
+the cloned <code>grooid-docker</code> directory, execute <code>./bin/build.sh</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-shell" data-lang="shell">[user@mypc grooid-docker]$ ./bin/build.sh
+docker-android: /home/user/.android-sdk found! <i class="conum" data-value="1"></i><b>(1)</b>
+docker-android: /home/user/.android found! <i class="conum" data-value="2"></i><b>(2)</b>
+docker-android: /home/user/.lazybones found! <i class="conum" data-value="3"></i><b>(3)</b>
+docker-android: In your host system, the gids of the video,kvm groups are respectively 91,1001
+docker-android: Your username is user with uid=1000 and gid=1000
+docker-android: Do you want to change uid,gid? [NO/yes] <i class="conum" data-value="4"></i><b>(4)</b>
+yes
+docker-android: Enter desired developer uid:
+1000
+docker-android: Enter desired developer gid:
+1001
+Sending build context to Docker daemon 2.158 MB <i class="conum" data-value="5"></i><b>(5)</b>
+Step 1 : FROM openjdk:8
+ ---&gt; a001fc27db5a
+...
+Removing intermediate container 6eecee282ef2
+Successfully built 0f5ac09e8843
+docker-android: installing <i class="conum" data-value="6"></i><b>(6)</b>
+docker-android: copying script to /home/user/bin
+docker-android: making script executable
+docker-android: /home/user/.bin/docker-android is now available</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Shared directory for Android SDK</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Shared directory for Android AVD images</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Shared Lazybones templates directory</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>In case you would like to change image system UIDs</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Docker build</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Installing <code>docker-android</code> in local path</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Once the image is built and you have <code>docker-android</code> command
+available in your local path, run the image.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_running">3. Running</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Go to the directory where you project/s are located and execute:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-shell" data-lang="shell">[user@mypc my-android-project]$ docker-android</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If the command is not found you can always execute the command
+including the whole path
+<code>/home/youruser/../grooid-docker/bin/docker-android.sh</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>And after a few seconds a <code>tmux</code> session will open up with three
+windows and in one of them an Android Studio will be executed.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_shared_paths">4. Shared paths</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TODO</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2017-01-24 17:58:02 UTC
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+<script>prettyPrint()</script>
+</body>
+</html>
