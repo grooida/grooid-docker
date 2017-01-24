@@ -1,0 +1,13 @@
+= Android Docker Image
+:numbered:
+:linkcss:
+
+image::imgs/grooid-docker.png[align=center]
+
+include::01_intro.adoc[]
+
+include::02_build.adoc[]
+
+include::03_run.adoc[]
+
+include::04_shared_paths.adoc[]
