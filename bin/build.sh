@@ -61,7 +61,7 @@ fi
 
 echo "$IMAG_PREFIX: In your host system, the gids of the video,kvm groups are respectively $VIDEO_GID,$KVM_GID"
 echo "$IMAG_PREFIX: Your username is `whoami` with uid=$DEV_UID and gid=$DEV_GID"
-echo "$IMAG_PREFIX: Do you want to change uid,gid? [YES/no]"
+echo "$IMAG_PREFIX: Do you want to change uid,gid? [NO/yes]"
 read YESNO
 
 if [ "x$YESNO" == "xYES" ] ; then
