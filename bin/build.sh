@@ -61,7 +61,7 @@ fi
 
 echo "$IMAG_PREFIX: In your host system, the gids of the video,kvm groups are respectively $VIDEO_GID,$KVM_GID"
 echo "$IMAG_PREFIX: Your username is `whoami` with uid=$DEV_UID and gid=$DEV_GID"
-echo "$IMAG_PREFIX: Do you want to change uid,gid? [YES/no]"
+echo "$IMAG_PREFIX: Do you want to change uid,gid? [NO/yes]"
 read YESNO
 
 if [ "x$YESNO" == "xYES" ] ; then
@@ -79,5 +79,5 @@ echo "export uid=$DEV_UID gid=$DEV_GID videogid=$VIDEO_GID kvmgid=$KVM_GID" > $U
 ### DOCKER IMAGE BUILD ###
 ##########################
 
-# Actually build the image
-docker build -t mgg/android-dev ../
+# Actually build the image and install `docker-android` script
+bash -c "docker build -t grooida/android-dev ../" && bash -c "./install.sh"

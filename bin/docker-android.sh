@@ -31,4 +31,4 @@ docker run -ti --rm \
        --privileged -v /dev/kvm:/dev/kvm \
        -v /tmp/.X11-unix:/tmp/.X11-unix \
        $(exported_directories_string) \
-       mgg/android-dev
+       grooida/android-dev

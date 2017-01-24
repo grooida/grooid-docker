@@ -1,0 +1,13 @@
+== Intro
+
+The `grooid-docker` is a https://www.docker.com/[Docker] image that
+provides a complete development environment to create Android
+applications.
+
+=== License
+
+Grooid Docker image uses http://www.apache.org/licenses/[Apache License 2.0]
+
+=== Github
+
+Docker image source code: https://github.com/grooida/grooid-docker

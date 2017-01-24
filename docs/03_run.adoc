@@ -1,0 +1,15 @@
+== Running
+
+Go to the directory where you project/s are located and execute:
+
+[source, shell]
+----
+[user@mypc my-android-project]$ docker-android
+----
+
+NOTE: If the command is not found you can always execute the command
+including the whole path
+`/home/youruser/../grooid-docker/bin/docker-android.sh`
+
+And after a few seconds a `tmux` session will open up with three
+windows and in one of them an Android Studio will be executed.

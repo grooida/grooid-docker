@@ -1,0 +1,17 @@
+language: java
+jdk:
+- oraclejdk8
+before_cache:
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+env:
+  global:
+    secure: rXxrpuXUp+gWPy9XQdcYkCsGShIQTRLNjG6C9Fl/oCG6y1bejtG1VQSnJ87ZCUXh1YEVAHZFZEsd6hWvThIZyr3QS7tsc2VgAm6SrRR0dgg04jp2YXwqxiqNjoA+cg8UI7FhKrHTB3kWN0NPt78rnx6kqwwql6bPRbPuW3kX2O3Jc1EOyTxcOZBzdxro4KGCYL73IhTZCOlSkwCDpZf3OitfUifUJhVlE74cL94z0rH+SO8dFgJmJWOKYv0PhmWvFqk0bPEyGO9CWth6e8LMH3Vmh1S1qlpV55xbSD/Apg5EKe0/Olvc45ZNH34ejBEoX88xGxaKmRffoAPiFhd+D4JSKHlb98Ydmj3tIWthS0193ZUoIbn0F6AvBD3B0zTGhspHJvzNevqUkeCy7FUNrKUMywvDb/EK2qgKfnptmQuxFsOuhM9QTgQg7J0u+ZooIdVKg91FIY9aGKjMW+EqIYoFbvCS29tk1Aejjd3P3NlD3rbt0TCkQ0YcR2zZEcslWdNE5vBh/t9Mjbb9omYkADI86nA6nsiLcsOzPHpxYMq3tWWzKu+s6iFMyAgrVWY/QhDG7+CdMgUDXlNwPR70mISaeHYXNGrOpm+MUA5Qh0hh9aoiGkSFxxC5sr2wy1x0X0HOO0Gh8Wq409UPsKsU/uAa2d3om9ZaV/TL43ogChM=
+install: "./gradlew clean"
+script: "./gradlew clean ascii publishGhPages -PgithubToken=${githubToken}"
+branches:
+  only:
+  - master

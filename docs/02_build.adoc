@@ -1,0 +1,54 @@
+== Building
+
+=== $PATH
+
+Before executing the build you have to make sure your `$PATH` variable
+includes `$HOME/.bin` directory. That directory will be used to
+install the `docker-android` command, and make it available anywhere
+in your user space everywhere, without having to introduce the whole
+command path.
+
+=== Build docker image
+
+IMPORTANT: Please make sure you have Docker property installed. If
+you've never used Docker before, I recommend you to take a look at
+https://docs.docker.com/engine/getstarted/
+
+First clone https://github.com/grooida/grooid-docker.git. Then, inside
+the cloned `grooid-docker` directory, execute `./bin/build.sh`:
+
+[source, shell]
+----
+[user@mypc grooid-docker]$ ./bin/build.sh
+docker-android: /home/user/.android-sdk found! <1>
+docker-android: /home/user/.android found! <2>
+docker-android: /home/user/.lazybones found! <3>
+docker-android: In your host system, the gids of the video,kvm groups are respectively 91,1001
+docker-android: Your username is user with uid=1000 and gid=1000
+docker-android: Do you want to change uid,gid? [NO/yes] <4>
+yes
+docker-android: Enter desired developer uid:
+1000
+docker-android: Enter desired developer gid:
+1001
+Sending build context to Docker daemon 2.158 MB <5>
+Step 1 : FROM openjdk:8
+ ---> a001fc27db5a
+...
+Removing intermediate container 6eecee282ef2
+Successfully built 0f5ac09e8843
+docker-android: installing <6>
+docker-android: copying script to /home/user/bin
+docker-android: making script executable
+docker-android: /home/user/.bin/docker-android is now available
+----
+
+<1> Shared directory for Android SDK
+<2> Shared directory for Android AVD images
+<3> Shared Lazybones templates directory
+<4> In case you would like to change image system UIDs
+<5> Docker build
+<6> Installing `docker-android` in local path
+
+Once the image is built and you have `docker-android` command
+available in your local path, run the image.

@@ -1,0 +1,48 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.ajoberstar:gradle-git:1.4.2'
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+    }
+}
+
+apply plugin: 'org.asciidoctor.convert'
+apply plugin: 'org.ajoberstar.github-pages'
+
+asciidoctor {
+    sourceDir 'docs'
+    attributes 'source-highlighter'  :  'prettify',
+               toc                   :  'left',
+               icons                 :  'font',
+               toclevels             :  4,
+               stylesheet            : 'css/style.css',
+               'pdf-style'           :  'default'
+}
+
+githubPages {
+    repoUri = 'https://github.com/grooida/grooid-docker-docs.git'
+    deleteExistingFiles = true
+
+    pages {
+        from file('build/asciidoc/html5')
+    }
+
+    //https://github.com/ajoberstar/gradle-git/wiki/Travis-CI-Authentication
+    credentials {
+        username = project.properties.githubToken
+        password = ''
+    }
+}
+
+task copyResources(type: Copy) {
+  from ("docs") {
+    include 'css/**'
+    include 'imgs/**'
+  }
+
+  into("${buildDir}/asciidoc/html5")
+}
+
+asciidoctor.dependsOn copyResources
