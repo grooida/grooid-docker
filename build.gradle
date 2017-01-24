@@ -22,7 +22,7 @@ asciidoctor {
 }
 
 githubPages {
-    repoUri = 'https://github.com/grooida/grooid-docker-docs.git'
+    repoUri = 'https://github.com/grooida/grooid-docker.git'
     deleteExistingFiles = true
 
     pages {
